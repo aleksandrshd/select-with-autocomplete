@@ -1,23 +1,29 @@
-import logo from './logo.svg';
 import './App.css';
+import {useEffect, useState} from "react";
+import {getSearchResults} from "./utils/utils";
+import Select from "./components/Select/Select";
 
 function App() {
+
+  const [allSearchResults, setAllSearchResults] = useState([]);
+
+  useEffect(() => {
+    const setSearchResults = async () => {
+      const searchResultsResponse = await getSearchResults();
+      console.log(searchResultsResponse);
+      setAllSearchResults(searchResultsResponse);
+    }
+    setSearchResults();
+  });
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+
+      <Select
+          options={allSearchResults}
+          placeholder="Movie"
+      />
+
     </div>
   );
 }
